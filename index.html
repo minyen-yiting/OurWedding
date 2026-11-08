@@ -353,6 +353,18 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
 .acc-body{padding:0 4px 26px; font-size:.98rem; line-height:2}
 .acc-body p{margin:0 0 .6em}
 .acc-body .key{color:var(--ink); font-weight:500}
+.acc-body h4{
+  margin:1.1em 0 .25em; font-size:.98rem; font-weight:500; letter-spacing:.1em; color:var(--ink);
+  display:flex; align-items:center; gap:10px;
+}
+.acc-body h4:first-child{margin-top:0}
+.acc-body .tag{
+  font-size:.74rem; font-weight:400; letter-spacing:.12em; padding:1px 10px; border-radius:999px;
+  color:var(--foam); background:var(--caramel);
+}
+.acc-body .route{margin:0 0 .5em; line-height:2}
+.acc-body .arr{color:var(--caramel); margin:0 .15em}
+.acc-body .note{font-size:.9rem; color:var(--caramel)}
 
 /* ============ 出席回函 ============ */
 .rsvp-intro{max-width:30em; margin:-20px auto 40px; text-align:center; font-size:1rem; line-height:2}
@@ -541,45 +553,55 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
           </button>
           <div class="acc-panel" id="p1" role="region" aria-labelledby="b1" inert>
             <div class="acc-inner"><div class="acc-body">
-              <p>導航搜尋「<span class="nw key">萊特薇庭</span>」，或輸入地址 <span class="nw key">臺中市西屯區龍富路5段396號</span> 即可抵達。</p>
-              <p>抵達後請依現場服務人員指引停車，再前往 <span class="nw key">頤和宮二樓 I 廳</span>。</p>
+              <h4>台74線快速道路<span class="tag">最快</span></h4>
+              <p class="route"><span class="nw">下市政匝道</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">往市政路市區方向</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">右轉龍富路五段即可抵達</span></p>
+              <h4>國道一號南下</h4>
+              <p class="route"><span class="nw">下中港交流道</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">台灣大道三段</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">右轉黎明路</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">右轉市政南一路</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">右轉龍富路五段</span></p>
+              <h4>國道一號北上</h4>
+              <p class="route"><span class="nw">下南屯交流道</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">五權西路二段</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">左轉環中路</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">右轉市政南一路</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">左轉龍富路五段</span></p>
+              <h4>停車資訊</h4>
+              <p>會場旁設有收費<span class="nw">平面停車場</span>，約 <span class="nw">100 個車位</span>；步行 5 分鐘範圍內另有近 <span class="nw">400 個路邊停車格</span>。</p>
             </div></div>
           </div>
         </div>
-
         <div class="acc-item">
           <button class="acc-btn" type="button" aria-expanded="false" aria-controls="p2" id="b2">
             <span>搭乘高鐵<span class="en">High speed rail</span></span><span class="acc-icon" aria-hidden="true"></span>
           </button>
           <div class="acc-panel" id="p2" role="region" aria-labelledby="b2" inert>
             <div class="acc-inner"><div class="acc-body">
-              <p>於 <span class="nw key">高鐵臺中站</span> 下車，出站後可於計程車招呼站搭車，或使用叫車服務直達 <span class="nw key">萊特薇庭</span>。</p>
+              <h4>計程車<span class="tag">最快</span></h4>
+              <p><span class="nw">高鐵臺中站</span>出站後搭乘計程車，車程約 <span class="nw">10～15 分鐘</span>。</p>
+              <h4>公車</h4>
+              <p class="route"><span class="nw">搭乘155 號</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">市政黎明路口下車</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">往黎明路方向</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">左轉直行約 200 公尺</span></p>
+              <p class="route"><span class="nw">搭乘160 號</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">黎明新村（黎明路）下車</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">往市政南二路方向</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">左轉市政南一路</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">右轉龍富路五段</span></p>
             </div></div>
           </div>
         </div>
-
         <div class="acc-item">
           <button class="acc-btn" type="button" aria-expanded="false" aria-controls="p3" id="b3">
-            <span>台鐵與捷運<span class="en">Train &amp; metro</span></span><span class="acc-icon" aria-hidden="true"></span>
+            <span>搭乘台鐵<span class="en">Train</span></span><span class="acc-icon" aria-hidden="true"></span>
           </button>
           <div class="acc-panel" id="p3" role="region" aria-labelledby="b3" inert>
             <div class="acc-inner"><div class="acc-body">
-              <p>搭乘台鐵至 <span class="nw key">臺中車站</span>，或搭乘 <span class="nw key">台中捷運綠線</span>，下車後建議轉乘計程車前往會場。</p>
+              <h4>計程車<span class="tag">最快</span></h4>
+              <p>抵達<span class="nw">臺中車站</span>後搭乘計程車，車程約 <span class="nw">20 分鐘</span>，依路況而定。</p>
+              <h4>公車</h4>
+              <p class="route"><span class="nw">搭乘29、75、81 號</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">黎明國小下車</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">往市政南一路方向</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">左轉市政南一路</span> <span class="arr" aria-hidden="true">›</span> <span class="nw">直行至龍富路五段右轉</span></p>
             </div></div>
           </div>
         </div>
-
         <div class="acc-item">
           <button class="acc-btn" type="button" aria-expanded="false" aria-controls="p4" id="b4">
-            <span>叫車小提醒<span class="en">Taxi tip</span></span><span class="acc-icon" aria-hidden="true"></span>
+            <span>搭乘捷運<span class="en">Metro</span></span><span class="acc-icon" aria-hidden="true"></span>
           </button>
           <div class="acc-panel" id="p4" role="region" aria-labelledby="b4" inert>
             <div class="acc-inner"><div class="acc-body">
-              <p>上車時告訴司機：「<span class="nw key">龍富路五段，萊特薇庭</span>」，抵達後前往 <span class="nw key">頤和宮二樓 I 廳</span> 即可。</p>
+              <p>搭乘<span class="nw">台中捷運綠線</span>，於<span class="nw">市政府站</span>或<span class="nw">水安宮站</span>下車，兩站距離會場都約 <span class="nw">2 公里</span>，轉乘計程車約 <span class="nw">10 分鐘</span>即可抵達。</p>
+              <p class="note">從<span class="nw">高鐵臺中站</span>也可直接轉乘綠線前往。</p>
             </div></div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -607,7 +629,7 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
           <span class="cd-unit"><span class="zh">秒</span><span class="en">Seconds</span></span>
         </div>
       </div>
-      <p class="cd-caption">倒數至婚宴入席　<span class="en nw">March 13, 11:30</span></p>
+      <p class="cd-caption">婚宴入席倒數　<span class="en nw">March 13, 11:30</span></p>
       <p class="cd-done" id="cdDone">今天，我們結婚了</p>
     </div>
   </section>
