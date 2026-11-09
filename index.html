@@ -9,8 +9,8 @@
 <meta property="og:description" content="在回家的路上還是相愛著。2027.03.13 臺中萊特薇庭">
 <!-- 分享預覽圖：og-image.jpg 需放在 GitHub 儲存庫中，與 index.html 同一層 -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://daimin91611.github.io/OurWedding/">
-<meta property="og:image" content="https://daimin91611.github.io/OurWedding/og-image.jpg">
+<meta property="og:url" content="https://minyen-yiting.github.io/OurWedding/">
+<meta property="og:image" content="https://minyen-yiting.github.io/OurWedding/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="旻諺與怡庭的婚禮邀請函">
@@ -339,6 +339,23 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
 .v-btn:hover{background:var(--ink)}
 .v-btn svg{width:15px; height:15px}
 
+/* ============ 加入行事曆 ============ */
+.cal{margin:clamp(48px,7vw,72px) auto 0; text-align:center}
+.cal-title{margin:0 0 18px; font-size:1.05rem; letter-spacing:.35em; padding-left:.35em; color:var(--ink); font-weight:500}
+.cal-title .en{display:block; margin-top:2px; font-family:var(--f-en); font-style:italic; font-size:1.05rem; letter-spacing:.02em; padding-left:0; color:var(--caramel); font-weight:400}
+.cal-btns{display:flex; flex-wrap:wrap; justify-content:center; gap:12px}
+.cal-btn{
+  display:inline-flex; align-items:center; gap:9px; padding:12px 24px; border-radius:999px;
+  text-decoration:none; font-size:.95rem; letter-spacing:.1em; color:var(--cocoa);
+  background:var(--glow); border:1px solid rgba(198,169,141,.7);
+  box-shadow:0 10px 24px -18px rgba(110,80,55,.6);
+  transition:background .3s ease, border-color .3s ease, color .3s ease;
+}
+.cal-btn:hover{background:var(--cocoa); border-color:var(--cocoa); color:var(--foam)}
+.cal-btn svg{width:17px; height:17px; flex:none}
+.cal-note{margin:14px 0 0; font-size:.85rem; letter-spacing:.08em; color:var(--caramel)}
+@media (max-width:420px){ .cal-btn{width:100%; max-width:300px; justify-content:center} }
+
 /* ============ 交通指引：摺疊式面板 Accordion ============ */
 .transit{max-width:720px; margin:clamp(70px,10vw,110px) auto 0}
 .transit-head{text-align:center; margin-bottom:28px}
@@ -549,6 +566,20 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
           開啟地圖
         </a>
       </article>
+    </div>
+
+    <!-- 加入行事曆 -->
+    <div class="cal">
+      <p class="cal-title">加入行事曆<span class="en">Save the date</span></p>
+      <div class="cal-btns">
+        <a class="cal-btn" id="calGoogle" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%E6%97%BB%E8%AB%BA%20%26%20%E6%80%A1%E5%BA%AD%20%E5%A9%9A%E5%AE%B4&amp;dates=20270313T033000Z%2F20270313T063000Z&amp;details=%E5%9C%A8%E5%9B%9E%E5%AE%B6%E7%9A%84%E8%B7%AF%E4%B8%8A%E9%82%84%E6%98%AF%E7%9B%B8%E6%84%9B%E8%91%97%E3%80%82%0A11%3A30%20%E5%8D%88%E5%AE%B4%E5%85%A5%E5%B8%AD%EF%BC%8C%E6%9C%9F%E5%BE%85%E6%82%A8%E7%9A%84%E8%92%9E%E8%87%A8%E3%80%82%0A%0A%E5%A9%9A%E7%A6%AE%E8%B3%87%E8%A8%8A%E8%88%87%E4%BA%A4%E9%80%9A%EF%BC%9Ahttps%3A%2F%2Fminyen-yiting.github.io%2FOurWedding%2F%0A%E5%9C%B0%E5%9C%96%EF%BC%9Ahttps%3A%2F%2Fmaps.app.goo.gl%2FkHq4juJCuq79yFRw5&amp;location=%E8%90%8A%E7%89%B9%E8%96%87%E5%BA%AD%20%E9%A0%A4%E5%92%8C%E5%AE%AE%E4%BA%8C%E6%A8%93%20I%20%E5%BB%B3%EF%BC%8C%E8%87%BA%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%B1%AF%E5%8D%80%E9%BE%8D%E5%AF%8C%E8%B7%AF5%E6%AE%B5396%E8%99%9F&amp;ctz=Asia%2FTaipei" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="nw">Google 日曆</span>
+        </a>
+        <a class="cal-btn" id="calIcs" href="wedding.ics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span class="nw">Apple／Outlook 行事曆</span>
+        </a>
+      </div>
+      <p class="cal-note"><span class="nw">3 月 13 日 11:30～14:30</span>　<span class="nw">含會場地址與交通資訊</span></p>
     </div>
 
     <!-- 交通指引：摺疊式面板（預設全部收合） -->
@@ -822,6 +853,15 @@ const CONFIG = {
   order.forEach((key, i) => { CONFIG.entries[key] = ids[i]; });
   const m = url.match(/^(https:\/\/docs\.google\.com\/forms\/d\/e\/[^/]+)\//);
   if (m) CONFIG.formAction = m[1] + '/formResponse';
+})();
+
+/* ============ 加入行事曆：在 LINE 內建瀏覽器中改用手機預設瀏覽器開啟 ============ */
+(function calendarLinks(){
+  if (!/\bLine\//i.test(navigator.userAgent)) return;
+  ['calGoogle','calIcs'].forEach(id => {
+    const a = document.getElementById(id);
+    a.href += (a.href.includes('?') ? '&' : '?') + 'openExternalBrowser=1';
+  });
 })();
 
 /* ============ 倒數計時 ============ */
