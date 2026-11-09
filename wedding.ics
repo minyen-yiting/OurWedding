@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Minyen & Yiting//Wedding//ZH-TW
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:minyen-yiting-wedding-20270313@minyen-yiting.github.io
+DTSTAMP:20261109T072739Z
+DTSTART:20270313T033000Z
+DTEND:20270313T063000Z
+SUMMARY:旻諺 & 怡庭 婚宴
+LOCATION:萊特薇庭 頤和宮二樓 I 廳，臺中市西屯區龍富路5
+ 段396號
+DESCRIPTION:在回家的路上還是相愛著。\n11:30 午宴入席，期
+ 待您的蒞臨。\n\n婚禮資訊與交通：https://minyen-yiting.github
+ .io/OurWedding/\n地圖：https://maps.app.goo.gl/kHq4juJCuq79yFRw5
+URL:https://minyen-yiting.github.io/OurWedding/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:明天就是旻諺 & 怡庭的婚宴
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:旻諺 & 怡庭的婚宴 11:30 入席
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
