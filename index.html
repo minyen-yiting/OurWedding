@@ -29,6 +29,8 @@
   --f-tc: 'Noto Serif TC', 'Songti TC', 'PMingLiU', serif;
   --f-script: 'Parisienne', 'Cormorant Garamond', cursive; /* 新人名字專用書寫體 */
   --nav-h: 64px;
+  --wrap: 1120px;                    /* 版心寬度（含左右內距） */
+  --pad: clamp(16px,4vw,36px);       /* 版心左右內距 */
 
   color-scheme: light;
   box-sizing: border-box;
@@ -64,9 +66,9 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
   box-shadow:0 1px 0 rgba(154,120,92,.12), 0 10px 30px -20px rgba(92,69,53,.35);
 }
 .nav-inner{
-  max-width:1120px; margin:0 auto; height:var(--nav-h);
+  max-width:var(--wrap); margin:0 auto; height:var(--nav-h);
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 clamp(16px,4vw,36px);
+  padding:0 var(--pad);
 }
 .brand{
   font-family:var(--f-en); font-style:italic; font-weight:400; font-size:1.55rem;
@@ -153,12 +155,14 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
   .hero-motto{margin-top:16px}
 }
 
-/* 寬螢幕：背景改為同一張照片的柔焦奶霧，清晰照片置於右側拱窗框，文字在左 */
+/* 寬螢幕：與導航列共用版心並左右對分——左半文字、右半拱窗照片，以頁面中線對稱，
+   標語左緣對齊「M&Y」，照片區右緣對齊導航連結與下方 V-Card */
 @media (min-width:700px) and (min-aspect-ratio:5/4){
   .hero{
-    --photo-gap:clamp(48px,8vw,150px);
+    --edge:max(var(--pad), calc((100% - var(--wrap)) / 2 + var(--pad)));
     --photo-h:calc(100vh - var(--nav-h) - 11vh);
-    flex-direction:row; align-items:center;
+    display:grid; grid-template-columns:1fr 1fr; align-items:center;
+    padding:var(--nav-h) var(--edge) 0;
   }
   .hero-bg{
     inset:-60px; background-position:center; transform-origin:center;
@@ -170,9 +174,9 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
       linear-gradient(90deg, rgba(244,236,226,.9) 0%, rgba(244,236,226,.72) 50%, rgba(244,236,226,.42) 100%);
   }
   .hero-photo{
-    display:block; position:absolute; z-index:-1;
-    right:var(--photo-gap); top:calc(var(--nav-h) + 5vh);
-    height:var(--photo-h); aspect-ratio:960/1706;
+    display:block; position:relative; z-index:-1;
+    grid-column:2; justify-self:center;
+    height:var(--photo-h); max-width:100%; aspect-ratio:960/1706;
     background:var(--hero-img) center/cover no-repeat;
     border-radius:999px 999px 28px 28px; /* 拱窗造型，呼應照片中的拱門 */
     filter:sepia(.12) saturate(.88) contrast(.96) brightness(1.02);
@@ -188,20 +192,18 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
     border:1px solid rgba(255,253,248,.6);
   }
   .hero-content{
-    flex:1; width:auto; text-align:center;
-    padding:var(--nav-h) 40px 0 clamp(70px,9vw,140px);
-    margin-right:calc(var(--photo-gap) + var(--photo-h) * .5627);
+    grid-column:1; grid-row:1; width:auto; text-align:center;
+    padding:0;
     animation-name:fadeIn; /* 不用位移動畫，避免直書標語定位跳動 */
   }
-  .hero-names{font-size:clamp(3rem, 6.3vw, 6.8rem); line-height:1.15}
-  .hero-names .n{display:inline}
-  .hero-names .amp{display:inline-block; font-size:.86em; margin:0 .2em}
-  .hero-rule{width:1px; height:30px; margin:16px auto}
-  .hero-tc{margin-top:16px; letter-spacing:.6em; padding-left:.6em; color:var(--cocoa)}
+  .hero-names{font-size:clamp(3.2rem, 5.4vw, 6rem); line-height:1.12}
+  .hero-names .amp{margin:-.02em 0 0}
+  .hero-rule{width:1px; height:30px; margin:20px auto 16px}
+  .hero-tc{letter-spacing:.6em; padding-left:.6em; color:var(--cocoa)}
   .hero-date{margin-top:8px; letter-spacing:.32em; padding-left:.32em; font-size:clamp(1.15rem,1.6vw,1.4rem)}
   .hero-date small{display:inline; margin-left:.4em; font-size:.72em}
   .hero-motto{
-    position:absolute; left:clamp(26px,4vw,64px); top:calc(var(--nav-h) + 10vh);
+    position:absolute; left:var(--edge); top:calc(var(--nav-h) + 10vh);
     margin:0; writing-mode:vertical-rl; text-orientation:upright;
     font-size:1.05rem; letter-spacing:.55em; line-height:1.8; font-weight:400;
   }
@@ -293,7 +295,7 @@ body::before{ /* 瀏海區域同色，避免內容透出 */
 .details{background:linear-gradient(180deg, var(--milk), var(--foam) 30%, var(--milk))}
 .vcards{
   display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
-  gap:clamp(16px,3vw,32px); max-width:1000px; margin:0 auto;
+  gap:clamp(16px,3vw,32px); max-width:calc(var(--wrap) - 2 * var(--pad)); margin:0 auto;
 }
 .vcard{
   position:relative; min-height:410px;
