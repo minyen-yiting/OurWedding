@@ -443,8 +443,28 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
 .form-status{margin:16px 0 0; text-align:center; font-size:.92rem; color:#9B4B3B; min-height:1.5em}
 .thanks{display:none; text-align:center; padding:20px 0}
 .thanks.show{display:block}
-.thanks h3{margin:0; font-family:var(--f-en); font-style:italic; font-weight:300; font-size:2.6rem; color:var(--ink)}
+.thanks h3{margin:0; font-family:var(--f-script); font-weight:400; font-size:3.2rem; line-height:1.3; color:var(--ink); -webkit-text-stroke:.3px currentColor}
 .thanks p{margin:14px 0 0; line-height:2}
+.th-lead{font-size:1.15rem; letter-spacing:.12em; color:var(--ink); font-weight:500}
+.th-msg{color:var(--cocoa)}
+.th-summary{
+  max-width:320px; margin:26px auto 0; padding:6px 22px; text-align:left;
+  border-radius:18px; background:var(--foam); border:1px solid rgba(198,169,141,.4);
+}
+.th-summary:empty{display:none}
+.th-row{display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px solid rgba(198,169,141,.3)}
+.th-row:last-child{border-bottom:0}
+.th-row dt{font-size:.92rem; letter-spacing:.12em; color:var(--caramel)}
+.th-row dd{margin:0; font-size:.98rem; letter-spacing:.06em; color:var(--ink); font-weight:500; text-align:right}
+.th-extra{font-size:.95rem; color:var(--cocoa)}
+.th-cal{margin-top:24px}
+.th-again-wrap{margin-top:30px !important; font-size:.9rem; color:var(--cocoa); line-height:1.8 !important}
+.th-again{
+  font:inherit; color:var(--ink); background:none; border:0; padding:0 2px; cursor:pointer;
+  text-decoration:underline; text-decoration-color:var(--tea); text-underline-offset:4px;
+}
+.th-again:hover{text-decoration-color:var(--caramel)}
+.th-small{font-size:.82rem; color:var(--caramel)}
 
 /* ============ 頁尾 ============ */
 .footer{text-align:center; padding:70px 20px calc(60px + env(safe-area-inset-bottom, 0px))}
@@ -470,7 +490,17 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
   .cd-card{gap:10px; padding:18px 10px}
   .v-addr{font-size:.82rem}
 }
+/* ============ 捲動淡入（僅在 JS 啟用時隱藏，確保內容不會因故消失） ============ */
+.reveal-on [data-reveal]{
+  opacity:0; transform:translateY(22px);
+  transition:opacity 1s ease, transform 1.1s cubic-bezier(.2,.7,.2,1);
+  transition-delay:var(--d, 0s);
+}
+.reveal-on [data-reveal].in{opacity:1; transform:none}
+.reveal-prep [data-reveal]{transition:none !important}
+
 @media (prefers-reduced-motion:reduce){
+  .reveal-on [data-reveal]{opacity:1; transform:none; transition:none}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms !important; animation-delay:0s !important; transition-duration:.01ms !important}
   .hero-bg{transform:none}
@@ -776,7 +806,17 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
 
       <div class="thanks" id="thanks" role="status" aria-live="polite" tabindex="-1">
         <h3>Thank you</h3>
-        <p>回函已送出，謝謝您的祝福。<br>在回家的路上還是相愛著，我們 <span class="nw">3 月 13 日</span> 見。</p>
+        <p class="th-lead"><span id="thName"></span>，謝謝您的回覆</p>
+        <p class="th-msg" id="thMsg"></p>
+        <dl class="th-summary" id="thSummary"></dl>
+        <p class="th-extra" id="thExtra" hidden></p>
+        <div class="th-cal" id="thCal" hidden>
+          <div class="cal-btns">
+            <a class="cal-btn" id="thCalGoogle" target="_blank" rel="noopener"></a>
+            <a class="cal-btn" id="thCalIcs"></a>
+          </div>
+        </div>
+        <p class="th-again-wrap">填錯了嗎？<button type="button" class="th-again" id="thAgain">重新填寫</button><br><span class="th-small">我們會以您最後一次的回覆為準</span></p>
       </div>
     </div>
   </section>
@@ -862,6 +902,39 @@ const CONFIG = {
     const a = document.getElementById(id);
     a.href += (a.href.includes('?') ? '&' : '?') + 'openExternalBrowser=1';
   });
+})();
+
+/* ============ 捲動淡入：區塊滑入畫面時依序浮現，每個只播放一次 ============ */
+(function scrollReveal(){
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const mark = (sel, step) => document.querySelectorAll(sel).forEach((el, i) => {
+    el.setAttribute('data-reveal', '');
+    if (step) el.style.setProperty('--d', (i * step) + 's');
+  });
+  mark('.sec-head');
+  mark('.letter p', .12);
+  mark('.vcard', .15);
+  mark('.cal');
+  mark('.transit-head');
+  mark('.acc');
+  mark('.cd-card', .1);
+  mark('.cd-caption');
+  mark('.rsvp-intro');
+  mark('.rsvp-card');
+  mark('.footer > *', .12);
+  // 先瞬間隱藏（不播放淡出），下一個畫格再開啟淡入動畫
+  document.documentElement.classList.add('reveal-on', 'reveal-prep');
+  void document.body.offsetHeight;
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove('reveal-prep')));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+    });
+  }, {threshold:.15, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 })();
 
 /* ============ 倒數計時 ============ */
@@ -1022,9 +1095,93 @@ const CONFIG = {
         : '回函尚未連結 Google 表單：請在程式碼 CONFIG.prefillUrl 貼上「預先填入的連結」。';
       return;
     }
+    snapshot = collectAnswers();
     submitted = true;
     btn.textContent = '送出中';
     setTimeout(() => { btn.disabled = true; }, 0);
+  });
+
+  /* 記下這次的回答，送出成功後用來顯示個人化感謝 */
+  let snapshot = null;
+  function picked(key){
+    const r = form.querySelector('input[type=radio][name="' + E[key] + '"]:checked');
+    if (!r || r.disabled) return '';
+    if (r.value === '__other_option__'){
+      const t = r.closest('.chips').nextElementSibling.querySelector('input');
+      return t.value.trim();
+    }
+    return r.value;
+  }
+  function collectAnswers(){
+    return {
+      name:   document.getElementById('f-name').value.trim(),
+      attend: picked('attend') === CONFIG.options.attend[0],
+      guests: picked('guests'), kids: picked('kids'), veg: picked('veg'),
+      card:   picked('card'),
+      email:  document.getElementById('f-email').disabled ? '' : document.getElementById('f-email').value.trim(),
+      msg:    document.getElementById('f-msg').value.trim()
+    };
+  }
+  function renderThanks(a){
+    document.getElementById('thName').textContent = a.name;
+    document.getElementById('thMsg').innerHTML = a.attend
+      ? '我們已經為您留好位置，<br><span class="nw">3 月 13 日 11:30</span>，<span class="nw">萊特薇庭</span>見。'
+      : '雖然這次不能見面，<br>您的祝福我們會好好收下，放在心上。';
+
+    // 回覆摘要
+    const rows = [];
+    const num = v => (v || '').replace(/位$/, '');
+    if (a.attend){
+      if (a.guests) rows.push(['出席人數', num(a.guests) + ' 位']);
+      if (a.kids)   rows.push(['兒童座椅', a.kids === '0' ? '不需要' : a.kids + ' 張']);
+      if (a.veg)    rows.push(['素食',     a.veg === '0' ? '無' : num(a.veg) + ' 位']);
+    }
+    const cardText = {[CONFIG.options.card[0]]:'電子喜帖', [CONFIG.options.card[1]]:'紙本喜帖', [CONFIG.options.card[2]]:'不需要'};
+    if (a.card) rows.push(['喜帖', cardText[a.card] || a.card]);
+    const dl = document.getElementById('thSummary');
+    dl.innerHTML = '';
+    rows.forEach(([k, v]) => {
+      const row = document.createElement('div'); row.className = 'th-row';
+      const dt = document.createElement('dt'); dt.textContent = k;
+      const dd = document.createElement('dd'); dd.textContent = v;
+      row.append(dt, dd); dl.appendChild(row);
+    });
+
+    // 補充說明：喜帖寄送、留言
+    const ex = document.getElementById('thExtra');
+    ex.innerHTML = '';
+    const line = (...parts) => {
+      const l = document.createElement('span'); l.style.display = 'block';
+      parts.forEach(([text, nw]) => {
+        const t = document.createElement('span'); t.textContent = text;
+        if (nw) t.className = 'nw';
+        l.appendChild(t);
+      });
+      ex.appendChild(l);
+    };
+    if (a.card === CONFIG.options.card[0] && a.email) line(['電子喜帖會寄到 '], [a.email, true]);
+    if (a.card === CONFIG.options.card[1]) line(['紙本喜帖會寄到您填寫的地址']);
+    if (a.msg) line(['您的留言我們收到了，會好好珍藏。']);
+    ex.hidden = !ex.childElementCount;
+
+    // 出席者附上加入行事曆
+    const cal = document.getElementById('thCal');
+    cal.hidden = !a.attend;
+    if (a.attend){
+      [['thCalGoogle','calGoogle'],['thCalIcs','calIcs']].forEach(([to, from]) => {
+        const src = document.getElementById(from), dst = document.getElementById(to);
+        dst.href = src.href; dst.innerHTML = src.innerHTML;
+      });
+    }
+  }
+
+  // 重新填寫：保留原本的答案，方便直接修改
+  document.getElementById('thAgain').addEventListener('click', () => {
+    document.getElementById('thanks').classList.remove('show');
+    form.style.display = '';
+    btn.disabled = false;
+    btn.textContent = '送出回函';
+    document.getElementById('rsvp').scrollIntoView({behavior:'smooth', block:'start'});
   });
 
   // 隱藏 iframe 載入完成 = Google 表單已收到回應
@@ -1032,6 +1189,7 @@ const CONFIG = {
     if (!submitted) return;
     submitted = false;
     form.style.display = 'none';
+    if (snapshot) renderThanks(snapshot);
     const thanks = document.getElementById('thanks');
     thanks.classList.add('show');
     thanks.focus({preventScroll:true});
