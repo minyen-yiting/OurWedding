@@ -533,12 +533,13 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
 .pb-src::before{content:""; display:block; width:1px; height:22px; margin:0 auto 12px; background:var(--caramel); opacity:.7}
 
 @media (min-width:821px){
-  .photo-band{height:clamp(480px, 74vh, 700px)}
+  /* 照片寬度依照片帶高度等比例計算：不論螢幕多高，畫面都固定呈現照片中段約一半的高度，兩人的頭與捧花都完整 */
+  .photo-band{--bh:clamp(480px, 74vh, 700px); --bw:calc(var(--bh) * 1.125); --shift:100px; height:var(--bh)}  /* --shift：照片右移，讓「文字＋照片」整體置中 */
   .pb-frame{position:absolute; inset:0; aspect-ratio:auto; max-height:none; overflow:visible}
   /* 照片限制在 1200px 內，避免放大過度而變糊；左右邊緣淡入奶茶底色 */
   .pb-img{
-    left:50%; right:auto; width:min(100%, 920px); transform:translateX(-50%);
-    background-position:50% 50%; background-size:cover;
+    left:calc(50% + var(--shift)); right:auto; width:min(100%, var(--bw)); transform:translateX(-50%);
+    background-position:50% 46%; background-size:cover;
     -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
             mask-image:linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   }
@@ -548,7 +549,7 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
   /* 文字：左側牆面直書（右側是新郎），呼應封面的直書標語 */
   .pb-text{
     position:absolute; z-index:1; top:50%; transform:translateY(-50%);
-    left:max(24px, calc((100% - 920px) / 2 - 150px)); right:auto; padding:0; text-align:left;
+    left:auto; right:calc(50% - var(--shift) + var(--bw) / 2 - 56px); padding:0; text-align:left;
     display:flex; flex-direction:row-reverse; align-items:flex-start; gap:16px;
     text-shadow:0 0 18px rgba(251,247,241,.95);
   }
