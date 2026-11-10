@@ -560,6 +560,21 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
   .pb-src::before{width:1px; height:28px; margin:0 auto 12px}
 }
 </style>
+<style id="after-wedding">
+.post-w{display:none}
+.after-wedding .post-w{display:block}
+.after-wedding span.post-w{display:inline}
+.after-wedding .pre-w, .after-wedding .cd-grid, .after-wedding .cd-caption, .after-wedding .cd-done, .after-wedding .cal{display:none !important}
+.married{text-align:center}
+.married-en{margin:0 0 18px; font-family:var(--f-script); font-size:2.6rem; line-height:1.2; color:var(--ink); -webkit-text-stroke:.3px currentColor}
+.married-card{
+  display:inline-flex; align-items:center; gap:clamp(14px,2.4vw,22px); padding:24px clamp(24px,5vw,40px); border-radius:24px;
+  background:linear-gradient(165deg,#FFFFFF 0%, var(--glow) 55%, #FBF4EB 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 0 0 1px rgba(198,169,141,.16), 0 26px 50px -26px rgba(110,80,55,.40);
+}
+.married-card .cd-num{min-width:0; text-align:center}
+.married-note{margin:20px 0 0; font-size:.98rem; letter-spacing:.24em; padding-left:.24em; color:var(--cocoa)}
+</style>
 </head>
 <body>
 
@@ -571,7 +586,7 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
       <ul class="nav-links">
         <li><a href="#about">關於婚禮</a></li>
         <li><a href="#details">婚禮詳情</a></li>
-        <li><a href="#rsvp">出席回函</a></li>
+        <li><a href="#rsvp"><span class="pre-w">出席回函</span><span class="post-w">感謝有你</span></a></li>
       </ul>
     </nav>
   </div>
@@ -765,11 +780,34 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
       </div>
       <p class="cd-caption">婚宴入席倒數　<span class="en nw">March 13, 11:30</span></p>
       <p class="cd-done" id="cdDone">今天，我們結婚了</p>
+      <div class="married post-w">
+        <p class="married-en">Thank you</p>
+        <div class="married-card">
+          <span class="cd-unit"><span class="zh">我們已經結婚</span><span class="en">Married for</span></span>
+          <span class="cd-rule" aria-hidden="true"></span>
+          <span class="cd-num" id="marriedDays">--</span>
+          <span class="cd-unit"><span class="zh">天</span><span class="en">Days</span></span>
+        </div>
+        <p class="married-note">謝謝你們，來見證我們的幸福</p>
+      </div>
     </div>
   </section>
 
   <!-- ============ 出席回函 ============ -->
   <section class="section" id="rsvp">
+    <div class="post-w">
+      <header class="sec-head">
+        <h2>感謝有你</h2>
+        <span class="en">With gratitude</span>
+        <span class="orn" aria-hidden="true"></span>
+      </header>
+      <div class="letter">
+        <p>3 月 13 日那天，謝謝每一位來到<span class="nw">萊特薇庭</span>的你，也謝謝每一份從遠方捎來的祝福。</p>
+        <p>因為有你們，那一天才如此圓滿。往後的日子，我們會帶著這些祝福，在回家的路上，繼續相愛。</p>
+        <p class="sign">旻諺 &amp; 怡庭　敬上<span class="en">Minyen &amp; Yiting</span></p>
+      </div>
+    </div>
+    <div class="pre-w">
     <header class="sec-head">
       <h2>出席回函</h2>
       <span class="en">Kindly reply</span>
@@ -880,6 +918,7 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
         <p class="th-again-wrap">填錯了嗎？<button type="button" class="th-again" id="thAgain">重新填寫</button><br><span class="th-small">我們會以您最後一次的回覆為準</span></p>
       </div>
     </div>
+    </div>
   </section>
 </main>
 
@@ -965,6 +1004,15 @@ const CONFIG = {
   });
 })();
 
+/* ============ 婚禮後自動切換為感謝模式 ============ */
+(function afterWedding(){
+  const from = new Date('2027-03-14T00:00:00+08:00').getTime();   // 婚禮隔天起
+  if (Date.now() < from) return;
+  document.documentElement.classList.add('after-wedding');
+  const day = 86400000, wedding = new Date('2027-03-13T00:00:00+08:00').getTime();
+  document.getElementById('marriedDays').textContent = Math.floor((Date.now() - wedding) / day);
+})();
+
 /* ============ 捲動淡入：區塊滑入畫面時依序浮現，每個只播放一次 ============ */
 (function scrollReveal(){
   if (!('IntersectionObserver' in window)) return;
@@ -982,6 +1030,7 @@ const CONFIG = {
   mark('.acc');
   mark('.cd-card', .1);
   mark('.cd-caption');
+  mark('.married');
   mark('.rsvp-intro');
   mark('.rsvp-card');
   mark('.footer > *', .12);
