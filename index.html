@@ -905,7 +905,7 @@ textarea.input{resize:vertical; min-height:110px; line-height:1.8}
 
       <div class="thanks" id="thanks" role="status" aria-live="polite" tabindex="-1">
         <h3>Thank you</h3>
-        <p class="th-lead"><span id="thName"></span>，謝謝您的回覆</p>
+        <p class="th-lead"><span id="thName"></span>，我們收到您的回覆囉</p>
         <p class="th-msg" id="thMsg"></p>
         <dl class="th-summary" id="thSummary"></dl>
         <p class="th-extra" id="thExtra" hidden></p>
@@ -1236,7 +1236,7 @@ const CONFIG = {
   function renderThanks(a){
     document.getElementById('thName').textContent = a.name;
     document.getElementById('thMsg').innerHTML = a.attend
-      ? '我們已經為您留好位置，<br><span class="nw">3 月 13 日 11:30</span>，<span class="nw">萊特薇庭</span>見。'
+      ? '謝謝您願意來見證我們的重要時刻，<br><span class="nw">3 月 13 日</span>，期待與您相見。'
       : '雖然這次不能見面，<br>您的祝福我們會好好收下，放在心上。';
 
     // 回覆摘要
